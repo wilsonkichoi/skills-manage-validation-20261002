@@ -3,8 +3,6 @@ name: wkc-skills-release
 description: Publish this collection's tags and GitHub Releases. Use when the maintainer asks to release merged work or resume an interrupted publication.
 argument-hint: "[vX.Y.Z]"
 disable-model-invocation: true
-metadata:
-  internal: true
 ---
 
 # wkc-skills-release
