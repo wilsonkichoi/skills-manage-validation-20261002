@@ -38,3 +38,5 @@ folding those tickets into one of the seven, or by deciding to live with it.
 Every Markdown file under the configured `rules_dir` is a discovered rule file. There is no
 registry: nothing has to point at a rule for it to be found, and dropping a file into `rules_dir`
 is the whole act of adding a rule.
+
+Fixture update marker: v0.0.15.
