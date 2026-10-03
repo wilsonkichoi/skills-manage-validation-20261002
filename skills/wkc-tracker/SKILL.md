@@ -1,23 +1,25 @@
 ---
-name: tracker
+name: wkc-tracker
 description: Read and write ticket state in this project's issue tracker, whether that is GitHub Issues, Linear, or local markdown files. Use it to list, show, create, assign, comment on, move, or link a ticket, and to ask what to work on next.
-disable-model-invocation: true
-metadata:
-  allow_implicit_invocation: "false"
+argument-hint: "<verb> [args]"
+disable-model-invocation: false
 ---
 
-# Tracker
+# wkc-tracker
 
 - **What it does:** reads and writes ticket state against the backend named by `issue_tracker` in
   `docs/dev-agents/config.md`: GitHub Issues, Linear, or local markdown files.
 - **When to use it:** any time a skill or a person needs to see or change ticket state. Every other
-  skill in this set goes through these verbs instead of touching the backend directly.
-- **Dependencies:** `docs/dev-agents/config.md` with `issue_tracker` set, written by `setup`.
+  skill in this set goes through these verbs instead of touching the backend directly. Callers are
+  people, models, and any `wkc-` skill that needs ticket state. A model may read on its own, but
+  runs a verb that changes state only when a person or a calling skill asked for that change.
+- **Dependencies:** `docs/dev-agents/config.md` with `issue_tracker` set, written by `wkc-setup`.
   For GitHub, an authenticated `gh` against a host with native issue dependencies. For Linear, the
   Linear MCP server. For local, nothing.
-- **How to call it:** Claude Code `/tracker <verb> [args]`, Codex `$tracker <verb> [args]`,
-  Kiro CLI `/tracker <verb> [args]`.
-- **Input:** one verb and its arguments.
+- **Input:** one verb and its arguments, as documented in [section 4](#4-verbs), plus the configured
+  backend. The verb table explains ticket ids, text, statuses, milestones, holders, and dependency edges.
+  Optional arguments keep their existing behaviour: `list` without filters returns open tickets;
+  bare `assign <id>` takes the ticket. `next` needs no arguments.
 - **Output:** the tickets asked for, or the changed ticket state plus its URL or file path.
 
 ## 1. Resolve the backend
@@ -32,8 +34,8 @@ way through, before running anything:
 
 Stop when the config cannot name a backend: the file does not exist, it has no `issue_tracker`
 field, or the value is not one of the four above. Write nothing, create no file or directory, and
-read no backend file. Say so, and ask the user to run `setup` first:
-Claude Code `/setup`, Codex `$setup`, Kiro CLI `/setup`. Never use another tool's config or ticket
+read no backend file. Say so, and ask the user to run `wkc-setup` first:
+Claude Code `/wkc-setup`, Codex `$wkc-setup`, Kiro CLI `/wkc-setup`. Never use another tool's config or ticket
 format instead, even when one is in the repository. No verb here can see a ticket written there.
 
 ## 2. Statuses
