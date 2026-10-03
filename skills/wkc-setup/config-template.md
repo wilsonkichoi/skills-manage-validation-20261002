@@ -40,3 +40,5 @@ registry: nothing has to point at a rule for it to be found, and dropping a file
 is the whole act of adding a rule.
 
 Fixture update marker: v0.0.15.
+
+<!-- Review recovery fixture: changed supporting file at 16. -->
